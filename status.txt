@@ -1,0 +1,11 @@
+#status BEFORE .gitignore
+.idea/.name
+.idea/compiler.xml
+.idea/copyright/
+.idea/encodings.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/workspace.xml
+ProjectGit.iml
+#status AFTER .gitignore
+status.txt
