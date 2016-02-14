@@ -9,3 +9,4 @@
 ProjectGit.iml
 #status AFTER .gitignore
 status.txt
+DmitryPaulioz_Practice/
