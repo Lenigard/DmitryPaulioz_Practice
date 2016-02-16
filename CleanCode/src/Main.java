@@ -32,6 +32,10 @@ class Message {
         return author;
     }
 
+    public Long getTimestamp() {
+        return Long.parseLong(timestamp);
+    }
+
     public String getMessage() {
         return message;
     }
@@ -83,9 +87,8 @@ class MessagesList {
     }
 
 
-
     public void showMessages() throws IOException {
-        if(messages.size() != 0) {
+        if (messages.size() != 0) {
             for (Message message : messages) {
                 System.out.println(message);
             }
@@ -152,8 +155,64 @@ class MessagesList {
                     System.out.println("Successfully removed.");
                 }
             }
-            if(deletingCheck == false) {
+            if (deletingCheck == false) {
                 System.out.println("There is no message with the same ID.");
+            }
+        }
+    }
+
+    public void searchingAuthor() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        String inputData;
+
+        System.out.print("Enter searching author: ");
+        if (sc.hasNextLine()) {
+            inputData = sc.nextLine();
+            boolean searchingCheck = false;
+            if(messages.size() == 0) {
+                readFromJSON();
+            }
+            for (int i = 0; i < messages.size(); i++) {
+                if (inputData.compareTo(messages.get(i).getAuthor()) == 0) {
+                    System.out.println(messages.get(i));
+                    searchingCheck = true;
+                }
+            }
+            if (!searchingCheck) {
+                System.out.println("There is no messages from this user.");
+            }
+        }
+    }
+
+    public void searchingTime() throws IOException {
+        Scanner sc = new Scanner(System.in);
+        String str1;
+        String str2;
+
+        System.out.print("Enter diapason of searching by time (two numbers): ");
+        if (sc.hasNextLine()) {
+            str1 = sc.nextLine();
+            str2 = sc.nextLine();
+            Long lowerLimit = Long.parseLong(str1);
+            Long upperLimit = Long.parseLong(str2);
+            if(messages.size() == 0) {
+                readFromJSON();
+            }
+            if (lowerLimit > upperLimit) {
+                Long stepNumber = lowerLimit;
+                lowerLimit = upperLimit;
+                upperLimit = stepNumber;
+            }
+
+            boolean searchingCheck = false;
+            for (int i = 0; i < messages.size(); i++) {
+                if ((lowerLimit < messages.get(i).getTimestamp()) && (upperLimit > messages.get(i).getTimestamp())) {
+                    System.out.println(messages.get(i));
+                    searchingCheck = true;
+                }
+            }
+            if (!searchingCheck) {
+                System.out.println("There is no messages in this period.");
             }
         }
     }
@@ -168,10 +227,12 @@ public class Main {
         System.out.println("Enter 1 to show previous messages.");
         System.out.println("Enter 2 to add your own message.");
         System.out.println("Enter 3 to delete some of previous messages.");
+        System.out.println("Enter 4 to find all messages of specific user.");
+        System.out.println("Enter 5 to find all messages in some specific period of time.");
         System.out.println("Enter 0 to exit.");
         int choice = -1;
         Scanner sc = new Scanner(System.in);
-        while(choice != 0) {
+        while (choice != 0) {
             System.out.print("Waiting for your commands: ");
             if (sc.hasNextLine()) {
                 choice = sc.nextInt();
@@ -189,12 +250,17 @@ public class Main {
                     getMessages.deleteMessage();
                     getMessages.writeToJSON();
                     break;
+                case 4:
+                    getMessages.searchingAuthor();
+                    break;
+                case 5:
+                    getMessages.searchingTime();
+                    break;
                 case 0:
                     getMessages.writeToJSON();
                     System.out.println("\nAll changes saved.");
                     System.out.println("See you later. Goodbye. ");
                 default:
-                    System.out.println("\nIncorrect choice.");
                     break;
             }
         }
