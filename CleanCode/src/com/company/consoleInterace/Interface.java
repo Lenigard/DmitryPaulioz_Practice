@@ -21,6 +21,7 @@ public class Interface {
         System.out.println("Enter 1 to show previous messages.");
         System.out.println("Enter 2 to add your own message.");
         System.out.println("Enter 3 to delete some of previous messages.");
+        System.out.println("Enter 4 to find all messages in some period of time.");
         System.out.println("Enter 0 to exit.");
         int choice = -1;
         messages.readFromJSON();
@@ -39,6 +40,9 @@ public class Interface {
                     break;
                 case 3:
                     messages.deleteMessage();
+                    break;
+                case 4:
+                    messages.findByTime();
                     break;
                 case 0:
                     messages.writeToJSON();

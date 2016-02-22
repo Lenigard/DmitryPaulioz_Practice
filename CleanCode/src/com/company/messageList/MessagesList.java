@@ -39,6 +39,29 @@ public class MessagesList {
         }
     }
 
+    public void findByTime() {
+        Long lowerLimit = new Long(0);
+        Long upperLimit = new Long(0);
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter lower time period of required searching: ");
+        if (sc.hasNextLong()) {
+            lowerLimit = sc.nextLong();
+        }
+        System.out.print("Enter upper time period of required searching: ");
+        if (sc.hasNextLong()) {
+            upperLimit = sc.nextLong();
+        }
+
+        Long meesageTime;
+        for(int i = 0; i < messages.size(); i++) {
+            meesageTime = Long.parseLong(messages.get(i).getTimestamp());
+            if (meesageTime > lowerLimit && meesageTime < upperLimit) {
+                System.out.println(messages.get(i));
+            }
+
+        }
+    }
+
     public void writeToJSON() throws IOException {
         if (messages.size() != 0) {
             Writer writer = new FileWriter("log.json");
